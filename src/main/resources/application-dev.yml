@@ -1,0 +1,41 @@
+logging:
+  level:
+    root: info
+    "[com.example.demo.**]": debug
+    
+spring:
+  autoconfigure:
+    exclude:
+    # 使用druid-spring-boot-starter，但是在springboot的启动类上exclude掉DruidDataSourceAutoConfigure这个类，忽略druid连接池的默认数据源配置
+    # 参考：https://www.cnblogs.com/ybyn/p/13690752.html
+    - com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  sql:
+    init:
+      mode: never
+  shardingsphere:
+    enabled: true
+    datasource:
+        names: ds0
+        ds0:
+          type: com.alibaba.druid.pool.DruidDataSource
+          driverClassName: org.postgresql.Driver
+          url: jdbc:postgresql://localhost:5432/test
+          username: test
+          password: test
+    sharding:
+      tables:
+        '[t_orders]':
+          logicTable: t_orders
+          actual-data-nodes: ds0.t_orders_$->{0..1}
+          table-strategy:
+            inline:
+              sharding-column: order_id
+              algorithm-expression: t_orders_$->{order_id % 2}
+          key-generator:
+            column: order_id
+            type: SNOWFLAKE
+              

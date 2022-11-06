@@ -1,0 +1,29 @@
+logging:
+  level:
+    root: info
+    "[com.example.demo.**]": debug
+    
+spring:
+  sql:
+    init:
+      mode: never
+  jpa:
+    primary:
+      database: POSTGRESQL
+      show-sql: true
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
+    secondary:
+      database: POSTGRESQL
+      show-sql: true
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    primary:
+      driver-class-name: org.postgresql.Driver
+      url: jdbc:postgresql://localhost:5432/test
+      username: test
+      password: test
+    secondary:
+      driver-class-name: org.postgresql.Driver
+      url: jdbc:postgresql://localhost:5432/test
+      username: test
+      password: test
