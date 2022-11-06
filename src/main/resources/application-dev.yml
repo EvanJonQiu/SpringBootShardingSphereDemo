@@ -38,4 +38,15 @@ spring:
           key-generator:
             column: order_id
             type: SNOWFLAKE
+        '[t_fixed_date]':
+          logicTable: t_fixed_date
+          actual-data-nodes: ds0.t_fixed_date_${2022}${(1..4).collect{t -> t.toString().padLeft(2, '0')}}
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+          table-strategy:
+            standard:
+              sharding-column: create_time
+              precise-algorithm-class-name: com.example.demo.sharding.AppPreciseShardingAlgorithm
+              range-algorithm-class-name: com.example.demo.sharding.AppRangeShardingAlgorithm
               
