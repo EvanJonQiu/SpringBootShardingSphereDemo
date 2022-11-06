@@ -17,25 +17,52 @@ spring:
     init:
       mode: never
   shardingsphere:
-    enabled: true
+    mode:
+      type: Standalone
+    props:
+      sql-show: true
     datasource:
         names: ds0
         ds0:
           type: com.alibaba.druid.pool.DruidDataSource
-          driverClassName: org.postgresql.Driver
+          driver-class-name: org.postgresql.Driver
           url: jdbc:postgresql://localhost:5432/test
           username: test
           password: test
-    sharding:
-      tables:
-        '[t_orders]':
-          logicTable: t_orders
-          actual-data-nodes: ds0.t_orders_$->{0..1}
-          table-strategy:
-            inline:
-              sharding-column: order_id
-              algorithm-expression: t_orders_$->{order_id % 2}
-          key-generator:
-            column: order_id
+    rules:
+      sharding:
+        tables:
+          t_orders:
+            logicTable: t_orders
+            actual-data-nodes: ds0.t_orders_$->{0..1}
+            table-strategy:
+              standard:
+                sharding-column: order_id
+                sharding-algorithm-name: user_inline
+            key-generator:
+              column: order_id
+              type: SNOWFLAKE
+          t_fixed_date:
+            logicTable: t_fixed_date
+            actual-data-nodes: ds0.t_fixed_date_${2022}${(1..4).collect{t -> t.toString().padLeft(2, '0')}}
+            table-strategy:
+              sharding-column: create_time
+              sharding-algorithm-name: time_inline
+            key-generate-strategy:
+              column:  id
+              key-generator-name: snowflake
+        key-generators:
+          snowflake:
             type: SNOWFLAKE
+        sharding-algorithms:
+          user_inline:
+            type: inline
+            props:
+              algorithm-expression: t_orders_$->{order_id % 2}
+          time_inline:
+            type: CLASS_BASED
+            props:
+              strategy: standard
+              algorithmClassName: com.example.demo.sharding.AppStandardShardingAlgorithm
+                
               
