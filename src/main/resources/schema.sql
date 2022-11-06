@@ -20,7 +20,7 @@ GRANT ALL PRIVILEGES ON TABLE t_orders_1 TO test;
 ----
 DROP TABLE IF EXISTS t_fixed_date_202201;
 CREATE TABLE t_fixed_date_202201 (
-    id SERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     order_id INTEGER NULL,
     order_message VARCHAR(255) NULL,
     create_time TIMESTAMP NULL
@@ -30,7 +30,7 @@ GRANT ALL PRIVILEGES ON TABLE t_fixed_date_202201 TO test;
 
 DROP TABLE IF EXISTS t_fixed_date_202202;
 CREATE TABLE t_fixed_date_202202 (
-    id SERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     order_id INTEGER NULL,
     order_message VARCHAR(255) NULL,
     create_time TIMESTAMP NULL
@@ -40,7 +40,7 @@ GRANT ALL PRIVILEGES ON TABLE t_fixed_date_202202 TO test;
 
 DROP TABLE IF EXISTS t_fixed_date_202203;
 CREATE TABLE t_fixed_date_202203 (
-    id SERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     order_id INTEGER NULL,
     order_message VARCHAR(255) NULL,
     create_time TIMESTAMP NULL
@@ -50,7 +50,7 @@ GRANT ALL PRIVILEGES ON TABLE t_fixed_date_202203 TO test;
 
 DROP TABLE IF EXISTS t_fixed_date_202204;
 CREATE TABLE t_fixed_date_202204 (
-    id SERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     order_id INTEGER NULL,
     order_message VARCHAR(255) NULL,
     create_time TIMESTAMP NULL
