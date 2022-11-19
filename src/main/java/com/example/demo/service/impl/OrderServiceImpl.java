@@ -6,8 +6,10 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.model.AutoCreateTable;
 import com.example.demo.model.FixedDateTable;
 import com.example.demo.model.Order;
+import com.example.demo.repository.AutoCreateTableRepository;
 import com.example.demo.repository.FixedDateTableRepository;
 import com.example.demo.repository.OrderRepository;
 import com.example.demo.service.OrderService;
@@ -20,6 +22,9 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Autowired
 	private FixedDateTableRepository fixedDateTableRepository;
+	
+	@Autowired
+	private AutoCreateTableRepository autoCreateTableRepository;
 
 	@Override
 	public Collection<Order> getAll() {
@@ -46,6 +51,25 @@ public class OrderServiceImpl implements OrderService {
 		fixedDateTable.setOrderMessage(msg);
 		fixedDateTable.setCreateTime(createTime);
 		this.fixedDateTableRepository.save(fixedDateTable);
+	}
+
+	@Override
+	public Collection<AutoCreateTable> getAllAutoCreateData() {
+		return this.autoCreateTableRepository.findAll();
+	}
+
+	@Override
+	public void addAutoCreateData(int orderId, String msg, Date createTime) {
+		AutoCreateTable autoCreateTable = new AutoCreateTable();
+		autoCreateTable.setOrderId(orderId);
+		autoCreateTable.setOrderMessage(msg);
+		autoCreateTable.setCreateTime(createTime);
+		this.autoCreateTableRepository.save(autoCreateTable);
+	}
+
+	@Override
+	public Collection<AutoCreateTable> getAllAutoCreateDataByDate(Date start, Date end) {
+		return this.autoCreateTableRepository.getDataByDate(start, end);
 	}
 
 }

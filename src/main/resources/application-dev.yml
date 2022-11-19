@@ -1,7 +1,7 @@
 logging:
   level:
     root: info
-    "[com.example.demo.**]": debug
+    "[com.example.demo]": debug
     
 spring:
   h2:
@@ -16,6 +16,9 @@ spring:
     database: POSTGRESQL
     show-sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
   sql:
     init:
       mode: never
@@ -51,7 +54,20 @@ spring:
             table-strategy:
               standard:
                 sharding-column: create_time
-                sharding-algorithm-name: time_inline
+                sharding-algorithm-name: fixed_date_algorithm
+            key-generator:
+              column: id
+              type: SNOWFLAKE
+            key-generate-strategy:
+              column:  id
+              key-generator-name: snowflake
+          t_auto_create_table:
+            logicTable: t_auto_create_table
+            actual-data-nodes: ds0.t_auto_create_table_${20221115},ds0.t_auto_create_table_${20221116},ds0.t_auto_create_table_${20221117},ds0.t_auto_create_table_${20221118},ds0.t_auto_create_table_${20221119}
+            table-strategy:
+              standard:
+                sharding-column: create_time
+                sharding-algorithm-name: auto_create_table_algorithm
             key-generator:
               column: id
               type: SNOWFLAKE
@@ -66,10 +82,15 @@ spring:
             type: inline
             props:
               algorithm-expression: t_orders_$->{order_id % 2}
-          time_inline:
+          fixed_date_algorithm:
             type: CLASS_BASED
             props:
               strategy: standard
               algorithmClassName: com.example.demo.sharding.AppStandardShardingAlgorithm
+          auto_create_table_algorithm:
+            type: CLASS_BASED
+            props:
+              strategy: standard
+              algorithmClassName: com.example.demo.sharding.AutoCreateTableShardingAlgorithm
                 
               

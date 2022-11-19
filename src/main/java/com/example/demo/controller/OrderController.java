@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.model.AutoCreateTable;
 import com.example.demo.model.FixedDateTable;
 import com.example.demo.model.Order;
 import com.example.demo.service.OrderService;
@@ -39,5 +40,20 @@ public class OrderController {
 	@PostMapping("/addFixedData")
 	public void addFixedData(int orderId, String msg, @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date createTime) {
 		this.orderService.addFixedDateTable(orderId, msg, createTime);
+	}
+	
+	@GetMapping("/getAllAutoCreateData")
+	public Collection<AutoCreateTable> getAllAutoCreateData() {
+		return this.orderService.getAllAutoCreateData();
+	}
+	
+	@PostMapping("/addAutoCreateData")
+	public void addAutoCreateData(int orderId, String msg, @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date createTime) {
+		this.orderService.addAutoCreateData(orderId, msg, createTime);
+	}
+	
+	@GetMapping("/getAllAutoCreateDataByDate")
+	public Collection<AutoCreateTable> getAllAutoCreateDataByDate(@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date start, @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date end) {
+		return this.orderService.getAllAutoCreateDataByDate(start, end);
 	}
 }

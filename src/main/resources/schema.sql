@@ -58,6 +58,16 @@ CREATE TABLE t_fixed_date_202204 (
 ALTER TABLE t_fixed_date_202204 OWNER TO test;
 GRANT ALL PRIVILEGES ON TABLE t_fixed_date_202204 TO test;
 
+----
+DROP TABLE IF EXISTS t_auto_create_table_20220101;
+CREATE TABLE t_auto_create_table_20220101 (
+    id BIGSERIAL PRIMARY KEY,
+    order_id INTEGER NULL,
+    order_message VARCHAR(255) NULL,
+    create_time TIMESTAMP NULL
+);
+ALTER TABLE t_auto_create_table_20220101 OWNER TO test;
+GRANT ALL PRIVILEGES ON TABLE t_auto_create_table_20220101 TO test;
 
 ----
 INSERT INTO t_orders_0(id, order_id, order_message)
