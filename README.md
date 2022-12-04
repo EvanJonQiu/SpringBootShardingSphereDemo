@@ -71,3 +71,7 @@ public class InitActualDataNodesExample implements ApplicationRunner {
     }
 }
 ```
+
+## 问题
+1. 使用自定义分表算法，导致主键生成算法失效。
+2. 插入PostgreSQL的JSONB字段，参见TestDataServiceImpl.class
