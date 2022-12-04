@@ -2,6 +2,7 @@ logging:
   level:
     root: info
     "[com.example.demo]": debug
+    "[org.apache.shardingsphere]": debug
     
 spring:
   h2:
@@ -38,42 +39,53 @@ spring:
     rules:
       sharding:
         tables:
-          t_orders:
-            logicTable: t_orders
-            actual-data-nodes: ds0.t_orders_$->{0..1}
-            table-strategy:
-              standard:
-                sharding-column: order_id
-                sharding-algorithm-name: order_inline
-            key-generator:
-              column: order_id
-              type: SNOWFLAKE
-          t_fixed_date:
-            logicTable: t_fixed_date
-            actual-data-nodes: ds0.t_fixed_date_${2022}${(1..4).collect{t -> t.toString().padLeft(2, '0')}}
-            table-strategy:
-              standard:
-                sharding-column: create_time
-                sharding-algorithm-name: fixed_date_algorithm
-            key-generator:
-              column: id
-              type: SNOWFLAKE
-            key-generate-strategy:
-              column:  id
-              key-generator-name: snowflake
+#          t_orders:
+#            logicTable: t_orders
+#            actual-data-nodes: ds0.t_orders_$->{0..1}
+#            table-strategy:
+#              standard:
+#                sharding-column: order_id
+#                sharding-algorithm-name: order_inline
+#            key-generator:
+#              column: order_id
+#              type: SNOWFLAKE
+#          t_fixed_date:
+#            #logicTable: t_fixed_date
+#            actual-data-nodes: ds0.t_fixed_date_${2022}${(1..4).collect{t -> t.toString().padLeft(2, '0')}}
+#            table-strategy:
+#              standard:
+#                sharding-column: create_time
+#                sharding-algorithm-name: fixed_date_algorithm
+#            key-generate-strategy:
+#              column: id
+#              key-generator-name: snowflake
+#              key-generator-column-name: id
+#              props:
+#                worker:
+#                  id: 123
           t_auto_create_table:
             logicTable: t_auto_create_table
-            actual-data-nodes: ds0.t_auto_create_table_${20221115},ds0.t_auto_create_table_${20221116},ds0.t_auto_create_table_${20221117},ds0.t_auto_create_table_${20221118},ds0.t_auto_create_table_${20221119}
+            actual-data-nodes: ds0.t_auto_create_table_${20221115}
+            #actual-data-nodes: ds0.t_auto_create_table_${20221115..20221118}
             table-strategy:
               standard:
+                key-generator-colunmn: id
                 sharding-column: create_time
                 sharding-algorithm-name: auto_create_table_algorithm
-            key-generator:
-              column: id
-              type: SNOWFLAKE
             key-generate-strategy:
-              column:  id
+              column: id
               key-generator-name: snowflake
+          test_data:
+            logicTable: test_data
+            actual-data-nodes: ds0.test_data_202211,ds0.test_data_202212,ds0.test_data_202301
+            key-generate-strategy:
+              column: id
+              key-generator-name: snowflake
+            table-strategy:
+              standard:
+                key-generator-colunmn: id
+                sharding-column: date_time
+                sharding-algorithm-name: fixed_date_algorithm
         key-generators:
           snowflake:
             type: SNOWFLAKE
@@ -85,12 +97,12 @@ spring:
           fixed_date_algorithm:
             type: CLASS_BASED
             props:
-              strategy: standard
+              strategy: STANDARD
               algorithmClassName: com.example.demo.sharding.AppStandardShardingAlgorithm
           auto_create_table_algorithm:
             type: CLASS_BASED
             props:
-              strategy: standard
+              strategy: STANDARD
               algorithmClassName: com.example.demo.sharding.AutoCreateTableShardingAlgorithm
                 
               

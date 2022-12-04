@@ -69,6 +69,47 @@ CREATE TABLE t_auto_create_table_20220101 (
 ALTER TABLE t_auto_create_table_20220101 OWNER TO test;
 GRANT ALL PRIVILEGES ON TABLE t_auto_create_table_20220101 TO test;
 
+-----
+DROP TABLE IF EXISTS test_data;
+CREATE TABLE test_data (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(32) NULL,
+    data JSONB NULL,
+    date_time TIMESTAMP NULL
+);
+ALTER TABLE test_data OWNER TO test;
+GRANT ALL PRIVILEGES ON TABLE test_data TO test;
+
+DROP TABLE IF EXISTS test_data_202211;
+CREATE TABLE test_data_202211 (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(32) NULL,
+    data JSONB NULL,
+    date_time TIMESTAMP NULL
+);
+ALTER TABLE test_data_202211 OWNER TO test;
+GRANT ALL PRIVILEGES ON TABLE test_data_202211 TO test;
+
+DROP TABLE IF EXISTS test_data_202212;
+CREATE TABLE test_data_202212 (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(32) NULL,
+    data JSONB NULL,
+    date_time TIMESTAMP NULL
+);
+ALTER TABLE test_data_202212 OWNER TO test;
+GRANT ALL PRIVILEGES ON TABLE test_data_202212 TO test;
+
+DROP TABLE IF EXISTS test_data_202301;
+CREATE TABLE test_data_202301 (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(32) NULL,
+    data JSONB NULL,
+    date_time TIMESTAMP NULL
+);
+ALTER TABLE test_data_202301 OWNER TO test;
+GRANT ALL PRIVILEGES ON TABLE test_data_202301 TO test;
+
 ----
 INSERT INTO t_orders_0(id, order_id, order_message)
 VALUES(DEFAULT, 1, 'order 1');

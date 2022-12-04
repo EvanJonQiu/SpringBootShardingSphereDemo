@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.model.AutoCreateTable;
 import com.example.demo.model.FixedDateTable;
 import com.example.demo.model.Order;
+import com.example.demo.model.TestData;
 import com.example.demo.service.OrderService;
+import com.example.demo.service.TestDataService;
 
 @RestController
 @RequestMapping("/order")
@@ -21,6 +23,9 @@ public class OrderController {
 	
 	@Autowired
 	private OrderService orderService;
+	
+	@Autowired
+	private TestDataService testDataService;
 
 	@GetMapping("/getAll")
 	public Collection<Order> getAll() {
@@ -55,5 +60,15 @@ public class OrderController {
 	@GetMapping("/getAllAutoCreateDataByDate")
 	public Collection<AutoCreateTable> getAllAutoCreateDataByDate(@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date start, @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date end) {
 		return this.orderService.getAllAutoCreateDataByDate(start, end);
+	}
+	
+	@GetMapping("/addTest")
+	public void addTest() {
+		this.testDataService.addTest();
+	}
+	
+	@GetMapping("/getList")
+	public Collection<TestData> getList() {
+		return this.testDataService.getList();
 	}
 }
